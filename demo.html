@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+</head>
+<body>
+    <h1>Registration Form</h1>
+    <hr>
+
+    <form id="registrationForm">  
+        <label for="fname">Firstname:</label>
+        <input type="text" id="fname" name="fname"><br/> 
+
+        <label for="lname">MiddleName:</label>
+        <input type="text" id="lname" name="lname"><br/> 
+       
+        <label for="myList">Course:</label>
+        <select id="myList">  
+            <option value="">Select Course</option>  
+            <option value="w3schools">w3schools</option>  
+            <option value="Javatpoint">Javatpoint</option>  
+            <option value="tutorialspoint">tutorialspoint</option>  
+            <option value="geeksforgeeks">geeksforgeeks</option>  
+        </select><br/>
+
+        <label>Gender:</label><br>  
+        <input type="radio" name="gender" id="male" value="male">Male<br>   
+        <input type="radio" name="gender" id="female" value="female">Female<br>   
+        <input type="radio" name="gender" id="other" value="other">Other<br>  
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}"><br>
+
+        <label for="myEmail">Email:</label>
+        <input type="email" id="myEmail" name="email"><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br/>
+
+        <label for="password1">Re-type Password:</label>
+        <input type="password" id="password1" name="password1">
+        <span id="message"></span><br><br>
+
+        <input type="submit" value="Register">  
+    </form>  
+
+    <table id="userTable" border="1">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>MiddleName</th>
+                <th>Course</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var fname = document.getElementById("fname").value.trim();
+            var lname = document.getElementById("lname").value.trim();
+            var course = document.getElementById("myList").value.trim();
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var phone = document.getElementById("phone").value.trim();
+            var email = document.getElementById("myEmail").value.trim();
+            var password = document.getElementById("password").value.trim();
+            var password1 = document.getElementById("password1").value.trim();
+
+            if (fname === "" || lname === "" || course === "" || !gender || phone === "" || email === "" || password === "" || password1 === "") {
+                alert("All fields are required.");
+                return;
+            }
+
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return;
+            }
+
+            if (password !== password1) {
+                document.getElementById("message").innerHTML = "**Passwords do not match";
+                return;
+            }
+
+            // Clear the message span
+            document.getElementById("message").innerHTML = "";
+
+            // Add data to table
+            var table = document.getElementById("userTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+            var cell7 = newRow.insertCell(6);
+            var cell8 = newRow.insertCell(7);
+
+            cell1.innerHTML = fname;
+            cell2.innerHTML = lname;
+            cell3.innerHTML = course;
+            cell4.innerHTML = gender.value;
+            cell5.innerHTML = phone;
+            cell6.innerHTML = email;
+            cell7.innerHTML = '<button onclick="editRow(this)">Edit</button>';
+            cell8.innerHTML = '<button onclick="deleteRow(this)">Delete</button>';
+
+            // Clear the form fields
+            document.getElementById("registrationForm").reset();
+        });
+
+        function editRow(btn) {
+            var row = btn.parentNode.parentNode;
+            var cells = row.getElementsByTagName("td");
+            document.getElementById("fname").value = cells[0].innerHTML;
+            document.getElementById("lname").value = cells[1].innerHTML;
+            document.getElementById("myList").value = cells[2].innerHTML;
+            var gender = cells[3].innerHTML;
+            document.getElementById(gender.toLowerCase()).checked = true;
+            document.getElementById("phone").value = cells[4].innerHTML;
+            document.getElementById("myEmail").value = cells[5].innerHTML;
+            row.remove();
+        }
+
+        function deleteRow(btn) {
+            var row = btn.parentNode.parentNode;
+            row.remove();
+        }
+    </script>
+</body>
+</html>

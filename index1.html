@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Submission</title>
+</head>
+<body>
+
+<div id="container">
+    <div class="row">
+        <input type="text" class="inputText">
+        <button onclick="addRow(this)">Add</button>
+        <button onclick="submitText(this)">Submit</button>
+        <span class="submittedText"></span>
+    </div>
+</div>
+
+<script>
+function submitText(button) {
+    var row = button.parentNode;
+    var inputText = row.querySelector('.inputText').value;
+    var submittedText = row.querySelector('.submittedText');
+    submittedText.textContent = inputText;
+    row.querySelector('.inputText').value = ''; // Clear the input field
+}
+
+function addRow(button) {
+    var container = document.getElementById('container');
+    var row = button.parentNode;
+    var newRow = row.cloneNode(true);
+    newRow.querySelector('.inputText').value = ''; // Clear the input field of the new row
+    newRow.querySelector('.submittedText').textContent = ''; // Clear the submitted text of the new row
+    container.appendChild(newRow);
+}
+</script>
+
+</body>
+</html>
